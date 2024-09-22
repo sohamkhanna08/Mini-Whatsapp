@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Whatsapp</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <h1>All Chats</h1>
+    <form method="GET" action="/chats/new">
+        <button class="new">Create a New Chat </button>
+        <p class="total">Total No. of Chats = <%=chats.length%></p>
+    </form>
+    <%let i=1 %>
+    <% for (let chat of chats) { %>
+    <p class="chatno">Chat No : <u><%= i%></u></p>
+    <div class="chat">
+        <p>From : <i><%= chat.from %></i></p>
+        <div class="msg">
+            <p>Message: <%= chat.msg %></p>
+            <form action="/chats/<%=chat._id%>/edit" method="get">
+                <button class="edit">Edit this Message</button>
+            </form>
+        </div>
+        <p>Sent to : <i><%= chat.to %></i></p>
+        <hr>
+        <p>Time : <%= chat.created_at.toString().split(" ")[4]%></p>
+        <p>Day : <%= chat.created_at.toString().split(" ")[0]%></p>
+        <p>Date : <%= chat.created_at.toString().split(" ").slice(1,4).join("-")%></p><hr>
+        <%if (chat.updated_at){ %>
+            <p>Update at : <%= chat.updated_at%></p><hr>
+        <% } %>
+        <% i++ %>
+        <form method="post" action="/chats/<%=chat._id%>?_method=DELETE">
+            <button class="delete">Delete this Message</button>
+        </form>
+    </div>
+    <br>
+   <% } %>  
+</body>
+</html>
+
